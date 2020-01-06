@@ -100,6 +100,11 @@ public class TwitterUI extends javax.swing.JFrame {
         });
 
         btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,12 +154,37 @@ public class TwitterUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtStarterActionPerformed
 
     private void btnTweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTweetActionPerformed
-        // TODO add your handling code here:
+    String consumerKey = "xJaAR5mqajNGeHiznoXIkXnqz";
+        String consumerSecret = "NVjKWXlbpt5oLEy5YkfIXtOHiZo3agYuljKQTwMzfJKgUsuQgq";
+        String accessToken = "1202043392655388674-E5rEi5ZsheFZrj3AssLA2ZPlGWw4yS";
+        String tokenSecret = "gSNOpzTLN6fAeYLZe3vnf0e3VaMmGmolMHZ08zlcfUz05";
+        
+        twitterFactory = new TwitterFactory();
+        twitter = twitterFactory.getInstance();
+        twitter.setOAuthConsumer(consumerKey, consumerSecret);
+        twitter.setOAuthAccessToken(new AccessToken(accessToken, tokenSecret));
+    Status status;
+        try {
+            status = twitter.updateStatus(txtStarter.getText());
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    System.out.println("Successfully updated the status to [" + txtStarter.getText() + "].");        // TODO add your handling code here:
     }//GEN-LAST:event_btnTweetActionPerformed
 
     private void btnMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMediaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMediaActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+
+        getToken();
+        try {
+            loadTweets();// TODO add your handling code here:
+        } catch (TwitterException ex) {
+            Logger.getLogger(TwitterUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
